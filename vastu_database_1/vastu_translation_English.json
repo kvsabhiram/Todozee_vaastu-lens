@@ -1,0 +1,736 @@
+{
+  "metadata": {
+    "version": "8.0",
+    "name": "Vastu Database — Classifier-Aligned",
+    "description": "Rebuilt Vastu database keyed to match the snake_case room slugs used by the YOLOv8 room classifier (vaastu_object_detection.py). Each room carries its OpenCV badge color (BGR), YOLO detection-rule weights, and full Vastu rules for all 8 cardinal/intercardinal directions (severity, label, impact, solution, why).",
+    "total_rooms": 9,
+    "total_direction_rules": 72,
+    "directions": [
+      "Northeast",
+      "North",
+      "East",
+      "Southeast",
+      "South",
+      "Southwest",
+      "West",
+      "Northwest"
+    ],
+    "severity_scale": {
+      "0": "IDEAL",
+      "1": "GOOD",
+      "2": "GOOD",
+      "3": "MODERATE",
+      "4": "HIGH",
+      "5": "CRITICAL"
+    },
+    "color_space_note": "badge_color_bgr is BGR (cv2 default), not RGB.",
+    "compatible_classifier": "vaastu_object_detection.py"
+  },
+  "rooms": {
+    "master_bedroom": {
+      "display_name": "Master Bedroom",
+      "badge_color_bgr": [
+        60,
+        80,
+        200
+      ],
+      "ideal_direction": "Southwest",
+      "category": "sleeping",
+      "purpose": "Sleep, rest, marital intimacy, reproduction.",
+      "detection_rules": {
+        "bed": 5.0,
+        "clock": 0.5
+      },
+      "directions": {
+        "Northeast": {
+          "severity": 5,
+          "severityLabel": "CRITICAL",
+          "impact": "Severe health collapse, continuous fever, thyroid dysfunction, anxiety, unresponsive cough, appetite loss, weight loss.",
+          "solution": "Vacate immediately. Relocate to Southwest. Heavy wooden frame. Granite stones. Turmeric and salt. Neem burning.",
+          "why": "Northeast sacred corner polluted by bed. Brahmi energy refuses entry. Sleep becomes impossible."
+        },
+        "North": {
+          "severity": 5,
+          "severityLabel": "CRITICAL",
+          "impact": "Sleep disorders, nightmares, anxiety, weak immunity, marital conflicts, memory problems, frequent infections, cold extremities.",
+          "solution": "Move to Southwest immediately. Heavy curtains. Amethyst crystals. Durga Chalisa 108x. Camphor burning.",
+          "why": "North Kubera zone drains prosperity during sleep. Cold winds cause Vata imbalance. Magnetic field disrupts brain waves."
+        },
+        "East": {
+          "severity": 4,
+          "severityLabel": "HIGH",
+          "impact": "Insomnia, fever, profuse sweating, vivid nightmares, weight loss, anxiety, irritability, hyperactivity.",
+          "solution": "Move to Southwest within 6 months. Blue or green walls. Heavy curtains. Sandalwood incense. Darker bedroom.",
+          "why": "East Surya zone — intense active fire dries the body, disrupts sleep cycles, creates Pitta imbalance."
+        },
+        "Southeast": {
+          "severity": 5,
+          "severityLabel": "CRITICAL",
+          "impact": "Violent nightmares, sleep paralysis, marital discord, sexual dysfunction, aggressive waking, family dysfunction, miscarriage risk.",
+          "solution": "Move to Southwest immediately. Water containers at Southeast. Durga Chalisa. White paint. Salt remedy.",
+          "why": "Southeast Agni zone — intense aggressive fire creates extreme Pitta and destroys relationships."
+        },
+        "South": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "6–7 hours sleep, heavy dreams, stable health, cordial relationships, acceptable but lacks vibrancy.",
+          "solution": "Acceptable temporarily. Upgrade to Southwest in 1–2 years. Warm earth tones. Heavy wooden furniture.",
+          "why": "South Yama zone — stable but too dense, lacks emotional warmth, energy feels heavy."
+        },
+        "Southwest": {
+          "severity": 0,
+          "severityLabel": "IDEAL",
+          "impact": "Perfect 8–9 hours deep sleep, marital harmony, enhanced fertility, excellent health, freedom from anxiety, financial stability, sexual satisfaction.",
+          "solution": "Maintain Southwest forever. Solid wood frame. Warm orange walls. Ghee lamp nightly. Family photos.",
+          "why": "Southwest Nairitya goddess — Earth element grounds and stabilizes. Perfect magnetic alignment for sleep."
+        },
+        "West": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "6–7 hours fair sleep, cordial relationships, minor fluctuations, acceptable health, declining sexual energy.",
+          "solution": "Acceptable temporarily. Plan upgrade in 2–3 years. Warm colors. Wood headboard. Orange accent lighting.",
+          "why": "West Varuna zone — declining peaceful energy, lacks Southwest grounding power."
+        },
+        "Northwest": {
+          "severity": 4,
+          "severityLabel": "HIGH",
+          "impact": "Fragmented sleep, nightmares, sleepwalking, mental confusion, fickleness, chronic worry, hyperactive children, financial instability.",
+          "solution": "Relocate to Southwest in 3–6 months. Heavy stone weights. Brown walls. Dark curtains. Grounding meditation.",
+          "why": "Northwest Vayu zone — chaotic wind energy prevents deep sleep, creates scattered thoughts."
+        }
+      }
+    },
+    "living_room": {
+      "display_name": "Living Room",
+      "badge_color_bgr": [
+        40,
+        160,
+        60
+      ],
+      "ideal_direction": "Northeast",
+      "category": "gathering",
+      "purpose": "Family gathering, bonding, entertainment.",
+      "detection_rules": {
+        "couch": 4.0,
+        "tv": 2.0,
+        "remote": 1.5,
+        "potted plant": 0.8,
+        "vase": 0.6,
+        "book": 0.4
+      },
+      "directions": {
+        "Northeast": {
+          "severity": 0,
+          "severityLabel": "IDEAL",
+          "impact": "Deep family bonds, meaningful discussions, divine blessings, joy radiates, perfect comfort, family gathers joyfully.",
+          "solution": "Maintain Northeast living room forever. Cream or yellow walls. Bright lighting. Comfortable cushions. Warm colors.",
+          "why": "Northeast Ishanya — sacred corner attracts divine blessings. Family bonds deepen. Conversations become meaningful forever."
+        },
+        "North": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Good family energy with wealth. Harmonious atmosphere, conversations pleasant, adequate bonding.",
+          "solution": "Acceptable. Northeast superior. Warm colors. Good lighting.",
+          "why": "North prosperity supports gathering adequately. Bonding adequate. Conversations pleasant. Results satisfactory."
+        },
+        "East": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Active lively gathering. Children energetic. Good atmosphere. Bonding active but lacks depth.",
+          "solution": "Acceptable. Northeast superior. Keep bright and attractive.",
+          "why": "East active energy supports gathering adequately. Bonding active. Atmosphere good. Lacks sacred depth."
+        },
+        "Southeast": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Some friction. Heated discussions. Bonding interrupted. Comfort compromised. Relationships tense sometimes.",
+          "solution": "Consider moving to Northeast in 1–2 years. Cool colors. Peaceful atmosphere. Plants. Extra comfort.",
+          "why": "Southeast fire creates friction. Perfect comfort compromised. Bonding interrupted. Conversations become tense."
+        },
+        "South": {
+          "severity": 4,
+          "severityLabel": "HIGH",
+          "impact": "Heavy suppression. Family reluctant to gather. Conversations strained. Comfort diminished. Bonding suppressed. Relationships burdened.",
+          "solution": "Move to Northeast within 6 months. Bright lights. Light colors. Open space. Mirrors. Maximum comfort.",
+          "why": "South heaviness prevents willing gathering. Comfort feels heavy. Conversations difficult. Bonding suppressed."
+        },
+        "Southwest": {
+          "severity": 5,
+          "severityLabel": "CRITICAL",
+          "impact": "Complete dysfunction. Family avoids gathering. Conflicts become warfare. No bonding possible. Comfort nonexistent. Toxic environment.",
+          "solution": "Relocate to Northeast immediately. Southwest absolutely destroys family harmony. Never place sofa in Southwest.",
+          "why": "Southwest heaviness completely suppresses bonding. Family avoids gathering. Conflicts emerge. Dysfunction certain."
+        },
+        "West": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Relaxed comfortable gathering. Pleasant family time. Good bonding. Lacks intensity. Cordial but not deeply connected.",
+          "solution": "Acceptable. Northeast superior. Comfortable seating. Warm lighting.",
+          "why": "West peaceful energy supports relaxation. Comfort excellent. Bonding adequate. Lacks sacred depth."
+        },
+        "Northwest": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Unstable gathering. Family scattered sometimes. Bonding inconsistent. Conversations superficial. Comfort fluctuates.",
+          "solution": "Consider moving to Northeast in 1–2 years. Grounding elements. Heavy furniture. Stable arrangement.",
+          "why": "Northwest chaotic air creates scattered gathering. Family interaction unstable. Bonding inconsistent."
+        }
+      }
+    },
+    "kitchen": {
+      "display_name": "Kitchen",
+      "badge_color_bgr": [
+        200,
+        160,
+        40
+      ],
+      "ideal_direction": "Southeast",
+      "category": "functional",
+      "purpose": "Cooking, food preparation, family nourishment.",
+      "detection_rules": {
+        "refrigerator": 4.0,
+        "microwave": 3.0,
+        "oven": 3.0,
+        "toaster": 2.0,
+        "sink": 1.5,
+        "bowl": 0.6,
+        "knife": 0.6,
+        "bottle": 0.4,
+        "cup": 0.3
+      },
+      "directions": {
+        "Northeast": {
+          "severity": 5,
+          "severityLabel": "CRITICAL",
+          "impact": "Sacred space polluted, blessings removed, family spirituality destroyed, health deterioration, accidents and burns.",
+          "solution": "Move to Southeast immediately. Never keep stove in Northeast. Block if cannot move. Extensive spiritual cleansing.",
+          "why": "Northeast sacred corner — fire commits a grave violation. All blessings flee. Accidents inevitable."
+        },
+        "North": {
+          "severity": 5,
+          "severityLabel": "CRITICAL",
+          "impact": "Water–fire conflict, constant leaks, appliance breakdowns, digestive diseases, infections, immune weakness.",
+          "solution": "Relocate to Southeast immediately. High exhaust fans. Red lights. Saffron walls. Daily diya.",
+          "why": "North water zone conflicts with kitchen fire. Food becomes toxic. Water extinguishes fire physically and energetically."
+        },
+        "East": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Food adequately nourished but not optimal. Some heat loss. Cooking slow. Health manageable.",
+          "solution": "Consider moving to Southeast in 1–2 years. Good ventilation. Bright lighting. Copper cookware. Saffron walls.",
+          "why": "East provides some fire but not the concentrated Agni power of Southeast. Benefits partial, joy incomplete."
+        },
+        "Southeast": {
+          "severity": 0,
+          "severityLabel": "IDEAL",
+          "impact": "Food becomes medicinal, excellent family health, prosperity increases, radiant skin, strong intelligent children, joy and laughter.",
+          "solution": "Maintain Southeast forever. Saffron or orange walls. Brass or copper utensils. Polished stove. Face East while cooking.",
+          "why": "Southeast Agni zone — the only correct kitchen location. Fire purifies and nourishes food perfectly. Prosperity assured."
+        },
+        "South": {
+          "severity": 4,
+          "severityLabel": "HIGH",
+          "impact": "Heavy energy suppresses cooking fire. Food becomes toxic. Financial blockage. Indigestion common. Obesity develops.",
+          "solution": "Relocate to Southeast within 6 months. Bright red or orange walls. Multiple bright lights. Raised stove on platform.",
+          "why": "South heaviness completely suppresses kitchen fire. Fire imprisoned becomes suffocative, disease-creating."
+        },
+        "Southwest": {
+          "severity": 5,
+          "severityLabel": "CRITICAL",
+          "impact": "Fire completely suppressed. Food becomes heavy and toxic. Indigestion severe. Total financial blockage. Chronic disease develops.",
+          "solution": "Relocate to Southeast immediately. Bright red or orange walls. Multiple bright lights. Raised stove. Intense fire element.",
+          "why": "Southwest heaviness completely imprisons kitchen fire. Fire becomes suffocative, toxic, disease-creating."
+        },
+        "West": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Moderate issues. Water–fire conflict. Some appliance issues. Energy waste. Food adequately cooked but not optimal.",
+          "solution": "Consider Southeast relocation in 1–2 years. Bright lighting. Copper cookware. Good ventilation essential.",
+          "why": "West water moderately conflicts with fire. Some energy waste but manageable. Benefits declining."
+        },
+        "Northwest": {
+          "severity": 4,
+          "severityLabel": "HIGH",
+          "impact": "Chaotic unstable energy disrupts cooking. High utility bills. Frequent appliance breakdowns. Food quality inconsistent.",
+          "solution": "Move to Southeast within 6 months. Grounding elements. Heavy copper cookware. Stabilizing measures.",
+          "why": "Northwest air disperses cooking-fire energy, making it unfocused and chaotic. Bills skyrocket."
+        }
+      }
+    },
+    "bathroom": {
+      "display_name": "Bathroom",
+      "badge_color_bgr": [
+        40,
+        180,
+        200
+      ],
+      "ideal_direction": "East",
+      "category": "hygiene",
+      "purpose": "Cleansing, hygiene, purification.",
+      "detection_rules": {
+        "toilet": 5.0,
+        "sink": 1.5,
+        "hair drier": 2.0,
+        "toothbrush": 2.0
+      },
+      "directions": {
+        "Northeast": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Good cleansing with a sacred touch. Pure water. Health benefits. Overkill for a functional bathroom.",
+          "solution": "Acceptable. East is still better. Maintain brightness.",
+          "why": "Northeast sacred energy supports cleansing adequately. Nearly perfect. Health blessed."
+        },
+        "North": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Moderate water issues. Some moisture. Occasional mold. Good air circulation is critical.",
+          "solution": "Acceptable with ventilation. Use exhaust fans. Good air circulation.",
+          "why": "North water element doubles the water in a bathroom. Double monitoring needed."
+        },
+        "East": {
+          "severity": 0,
+          "severityLabel": "IDEAL",
+          "impact": "Perfect cleansing experience. No moisture issues. Fresh feeling. Optimal clarity. Excellent energy.",
+          "solution": "Maintain East bathroom. Natural light. Good ventilation. Plants.",
+          "why": "East Sun energy balances water perfectly. Cleansing becomes optimal. Costs minimal."
+        },
+        "Southeast": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Fire–water conflict. Some moisture issues. Moderate problems. Occasional damage risk.",
+          "solution": "Consider moving to East in 1–2 years. Excellent ventilation. Cool colors.",
+          "why": "Southeast fire opposes water, creating inefficiency, higher costs, occasional spoilage."
+        },
+        "South": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Heavy water accumulation. Dampness builds. Stagnant feeling. Moisture persists. Mold risk.",
+          "solution": "Plan East relocation. Excellent ventilation. Bright lights.",
+          "why": "South heaviness traps water energy completely. Mold develops inevitably."
+        },
+        "Southwest": {
+          "severity": 4,
+          "severityLabel": "HIGH",
+          "impact": "Chronic moisture. Persistent mold. Respiratory issues. Rapid deterioration. Major problems.",
+          "solution": "Relocate or improve urgently. Add lights and fans. Bright colors.",
+          "why": "Southwest heaviness completely traps water energy. Mold inevitable. Respiratory issues develop."
+        },
+        "West": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Acceptable cleansing. Water balanced. Fair flow. Acceptable results overall.",
+          "solution": "Acceptable. East preferable. Maintain good ventilation.",
+          "why": "West water is somewhat stable. Results acceptable. Benefits fair."
+        },
+        "Northwest": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Unstable water flow. Inconsistent drainage. Moisture fluctuates. Unpredictable problems.",
+          "solution": "Move to East within 1–2 years. Multiple fans. Regular maintenance.",
+          "why": "Northwest air disperses water energy inconsistently. Drainage becomes erratic."
+        }
+      }
+    },
+    "dining_room": {
+      "display_name": "Dining Room",
+      "badge_color_bgr": [
+        180,
+        60,
+        180
+      ],
+      "ideal_direction": "West",
+      "category": "gathering",
+      "purpose": "Family meals, nourishment, bonding.",
+      "detection_rules": {
+        "dining table": 4.0,
+        "wine glass": 1.5,
+        "fork": 1.0,
+        "spoon": 0.8,
+        "knife": 0.6,
+        "chair": 0.3,
+        "cup": 0.3
+      },
+      "directions": {
+        "Northeast": {
+          "severity": 1,
+          "severityLabel": "GOOD",
+          "impact": "Divine meals with perfect nourishment. Spiritual dining. Excellent bonding. Blessings present.",
+          "solution": "Very good location. Maintain a bright, clean, spiritual atmosphere.",
+          "why": "Northeast sacred energy blesses meals perfectly. Health multiplied. Prosperity divine."
+        },
+        "North": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Good family meals with wealth energy. Prosperous dining. Pleasant conversation.",
+          "solution": "Acceptable. West is better. Warm lighting. Family photos.",
+          "why": "North provides prosperity adequately. Meals pleasant. Prosperity present but not as sacred."
+        },
+        "East": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Active energetic meals. Enthusiastic children. Good digestion. Lively atmosphere.",
+          "solution": "Acceptable. West provides relaxation. Keep bright and active.",
+          "why": "East activity keeps meals lively adequately. Digestion good. Atmosphere active."
+        },
+        "Southeast": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Warm convivial meals. Heat makes food enjoyable. Good digestion. Pleasant atmosphere.",
+          "solution": "Acceptable. Good for cold climates. West preferable.",
+          "why": "Southeast fire warms atmosphere adequately. Meals enjoyable."
+        },
+        "South": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Heavy dining experience. Slow eating. Stable but felt as weight.",
+          "solution": "Consider moving to West in 1–2 years. Light colors. Good ventilation.",
+          "why": "South heaviness makes meals feel weighty. Eating becomes slow. Comfort diminished."
+        },
+        "Southwest": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Very stable but too heavy. Relationships stable but lack spontaneity. Joy suppressed.",
+          "solution": "Plan West relocation in 1–2 years. Light colors. Bright lights.",
+          "why": "Southwest heaviness suppresses joy in dining. Relationships stable but lack spontaneity."
+        },
+        "West": {
+          "severity": 0,
+          "severityLabel": "IDEAL",
+          "impact": "Meals become joyful. Family bonds strengthen. Food digests well. Perfect nourishment and bonding.",
+          "solution": "Maintain West dining room forever. Comfortable seating. Warm lighting.",
+          "why": "West Varuna zone — balanced water energy supports nourishment perfectly. Bonding deepens. Meals become sacred."
+        },
+        "Northwest": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Flexible dining arrangements. Mobile family meals. Good bonding. Relaxed gatherings.",
+          "solution": "Acceptable. West better for deep connection. Good seating.",
+          "why": "Northwest flexibility is good for gathering adequately. Meals pleasant. Bonding fair."
+        }
+      }
+    },
+    "office": {
+      "display_name": "Office",
+      "badge_color_bgr": [
+        100,
+        100,
+        200
+      ],
+      "ideal_direction": "North",
+      "category": "work",
+      "purpose": "Business, commerce, professional work, client meetings, accounts.",
+      "detection_rules": {
+        "laptop": 4.0,
+        "tv": 1.0,
+        "mouse": 1.0,
+        "keyboard": 1.0,
+        "cell phone": 0.5,
+        "chair": 0.3,
+        "book": 0.2,
+        "desk": 4.0,
+        "computer": 3.0,
+        "monitor": 3.0,
+        "printer": 2.0,
+        "whiteboard": 2.0,
+        "filing_cabinet": 1.5
+      },
+      "directions": {
+        "Northeast": {
+          "severity": 1,
+          "severityLabel": "GOOD",
+          "impact": "Sharp clarity for decisions. Intuition reliable. Strategy clear. Honest dealings. Lacks the heat of pure commerce.",
+          "solution": "Very good for advisory, consulting, R&D, or strategy work. Maintain brightness. Keep the corner uncluttered.",
+          "why": "Northeast Ishanya — divine clarity zone. Excellent for thinking work; less suited to aggressive sales."
+        },
+        "North": {
+          "severity": 0,
+          "severityLabel": "IDEAL",
+          "impact": "Wealth flows in. Deals close. Cash circulates. Steady client acquisition. Business genuinely prospers.",
+          "solution": "Maintain North office forever. Owner's desk facing North. Cash box / accounts in the North wall. Water feature optional.",
+          "why": "North Kubera zone — the literal direction of wealth. Commerce, cash flow, and growth all align with this energy."
+        },
+        "East": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Energetic productive work. New ventures launch easily. Sun fuels morning output. Growth-oriented.",
+          "solution": "Acceptable. North superior for cash flow. Keep eastern windows clean. Good for startups in growth mode.",
+          "why": "East Surya zone — active energy supports new initiatives but doesn't anchor wealth the way North does."
+        },
+        "Southeast": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Productive but volatile. Fire fuels output then burnout. Disputes flare. Lawsuits possible. High employee turnover.",
+          "solution": "Consider moving to North in 1–2 years. Cool colors. Good ventilation. Conflict-resolution practices essential.",
+          "why": "Southeast Agni zone — fire creates intense output but also friction, anger, legal risk in a commercial context."
+        },
+        "South": {
+          "severity": 4,
+          "severityLabel": "HIGH",
+          "impact": "Stagnation. Deals stall. Receivables age. Innovation impossible. Heavy energy crushes momentum.",
+          "solution": "Relocate to North within 6 months. Bright lighting. Mirrors on the North wall. Active workspace, no clutter.",
+          "why": "South Yama zone — heaviness suppresses commerce. Money refuses to move. Decisions become impossibly slow."
+        },
+        "Southwest": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Stable but heavy for the WORK ITSELF. Ideal for the owner's SEAT inside the office, not for the whole office room.",
+          "solution": "Acceptable only if the office room is small and used mainly by the owner. Otherwise relocate to North.",
+          "why": "Southwest Nairitya — grounding power benefits the boss's chair but suppresses general office productivity."
+        },
+        "West": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Calm, steady work. Profits stable but modest. Long client relationships. Less innovation, more retention.",
+          "solution": "Acceptable for mature businesses. North better for growth. Warm lighting. Comfortable seating.",
+          "why": "West Varuna zone — peaceful energy retains clients well but doesn't drive aggressive growth."
+        },
+        "Northwest": {
+          "severity": 1,
+          "severityLabel": "GOOD",
+          "impact": "Excellent for client meetings, sales, marketing, networking. Deals close. Movement and momentum strong.",
+          "solution": "Excellent for sales-driven or client-facing teams. North better for accounts and finance functions.",
+          "why": "Northwest Vayu zone — wind element moves opportunities and people. Perfect for closing and networking."
+        }
+      }
+    },
+    "study_room": {
+      "display_name": "Study Room",
+      "badge_color_bgr": [
+        150,
+        100,
+        150
+      ],
+      "ideal_direction": "East",
+      "category": "learning",
+      "purpose": "Learning, concentration, reading, knowledge, academic work.",
+      "detection_rules": {
+        "book": 3.0,
+        "laptop": 1.0,
+        "chair": 0.3,
+        "clock": 0.3,
+        "bookshelf": 4.0,
+        "desk": 3.0,
+        "lamp": 2.0,
+        "notebook": 1.5,
+        "pen": 0.5,
+        "globe": 1.0
+      },
+      "directions": {
+        "Northeast": {
+          "severity": 1,
+          "severityLabel": "GOOD",
+          "impact": "Divine learning. Enlightenment flows. Exceptional memory. Intelligence blooms. Success practically guaranteed.",
+          "solution": "Excellent location. Maintain brightness. Keep the corner clean and uncluttered. Books face East.",
+          "why": "Northeast divine energy blesses learning with insight. Excellence becomes natural."
+        },
+        "North": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Good learning with calm focus. Prosperity supports studies. Memory adequate. Concentration fair.",
+          "solution": "Acceptable. East better for sharpness. Cool lighting helpful.",
+          "why": "North calm supports learning adequately. Concentration fair. Results good but not as sharp as East."
+        },
+        "East": {
+          "severity": 0,
+          "severityLabel": "IDEAL",
+          "impact": "Learning becomes easy. Sharp memory. Deep concentration. Intelligence flourishes. Academic success certain.",
+          "solution": "Maintain East study. Bright natural light. Desk faces East. Clean organized. Inspiring materials on walls.",
+          "why": "East Sun energy illuminates knowledge and sharpens intellect perfectly. Productivity exceptional always."
+        },
+        "Southeast": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Energetic studying with scattered focus. High motivation but concentration breaks. Heat burns energy. Some burnout.",
+          "solution": "Consider East move in 1–2 years. Cool colors. Good ventilation. Regular breaks.",
+          "why": "Southeast fire creates energy but heat burns focus. Concentration breaks. Burnout risk."
+        },
+        "South": {
+          "severity": 4,
+          "severityLabel": "HIGH",
+          "impact": "Heavy suppression of learning. Lethargy dominates. Concentration impossible. Weak memory. Constant procrastination.",
+          "solution": "Move to East within 6 months. Bright lights. Light colors. Active workspace.",
+          "why": "South heaviness completely suppresses mental activity. Learning becomes nearly impossible."
+        },
+        "Southwest": {
+          "severity": 5,
+          "severityLabel": "CRITICAL",
+          "impact": "No focus possible. Severe procrastination. Memory nonexistent. Failure certain. Complete dysfunction.",
+          "solution": "Move to East immediately. Southwest completely blocks all learning. Never study in Southwest.",
+          "why": "Southwest heaviness blocks all learning energy. Focus impossible. Knowledge cannot be retained."
+        },
+        "West": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Relaxed studying. Comfortable environment. Adequate focus. Knowledge retained. Decent results.",
+          "solution": "Acceptable. East better for sharpness. Comfortable seating. Warm lighting.",
+          "why": "West relaxation aids comfort but dulls sharp focus. Results good but not optimal."
+        },
+        "Northwest": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Scattered studying. Unstable focus. Mind wanders constantly. Inconsistent performance. Frequent distraction.",
+          "solution": "Move to East in 1–2 years. Grounding elements. Minimal distractions. Stable schedule.",
+          "why": "Northwest chaotic air prevents focused learning. Performance becomes inconsistent."
+        }
+      }
+    },
+    "corridor": {
+      "display_name": "Corridor",
+      "badge_color_bgr": [
+        160,
+        160,
+        60
+      ],
+      "ideal_direction": "Northeast",
+      "category": "circulation",
+      "purpose": "Passage, movement, energy flow between rooms.",
+      "detection_rules": {
+        "door": 3.0,
+        "wall_lamp": 2.0,
+        "picture": 1.5
+      },
+      "directions": {
+        "Northeast": {
+          "severity": 0,
+          "severityLabel": "IDEAL",
+          "impact": "Energy flows freely throughout the home. Bright cheerful passage. Family movement effortless. Daily life feels light.",
+          "solution": "Maintain Northeast corridor forever. Keep it bright, uncluttered, and well-lit. Light walls. Small plant or lamp at the end.",
+          "why": "Northeast Ishanya — sacred corner. A corridor here channels divine prana through the whole house. Movement becomes auspicious."
+        },
+        "North": {
+          "severity": 1,
+          "severityLabel": "GOOD",
+          "impact": "Smooth daily movement. Prosperity energy circulates. Pleasant well-lit passage. Wealth flow supported.",
+          "solution": "Very good location. Keep clean and well-lit. Avoid heavy storage along the walls.",
+          "why": "North Kubera zone — wealth energy travels comfortably through this passage. Circulation good."
+        },
+        "East": {
+          "severity": 1,
+          "severityLabel": "GOOD",
+          "impact": "Bright, active circulation. Morning light fills the home. Energy refreshed daily. Mood lifted.",
+          "solution": "Excellent. Maintain windows or skylights. Keep eastern end open and bright.",
+          "why": "East Sun energy enters and flows through the corridor each morning, recharging the whole home."
+        },
+        "Southeast": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Restless passage. Heat builds in summer. Occasional friction as family members cross paths. Energy slightly agitated.",
+          "solution": "Consider moving heavy items elsewhere. Cool light colors on walls. Good ventilation.",
+          "why": "Southeast Agni zone — corridor fire creates agitation in a transit space. Movement feels rushed."
+        },
+        "South": {
+          "severity": 4,
+          "severityLabel": "HIGH",
+          "impact": "Heavy stagnant passage. Movement feels dragging. Family avoids the corridor. Dust and lethargy accumulate.",
+          "solution": "Add bright lights and mirrors. Move heavy storage out within 6 months. Keep the southern end uncluttered.",
+          "why": "South Yama zone — heaviness blocks free passage. Energy stagnates. Daily movement becomes burdensome."
+        },
+        "Southwest": {
+          "severity": 4,
+          "severityLabel": "HIGH",
+          "impact": "Energy completely blocked from circulating. Dark, heavy passage. Family movement minimal. House feels divided.",
+          "solution": "Avoid placing a corridor here. If unavoidable, install bright lights, mirrors on the wall, and keep absolutely uncluttered.",
+          "why": "Southwest Nairitya — heaviest corner. A corridor here traps prana instead of letting it flow."
+        },
+        "West": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Calm relaxed passage. Evening light pleasant. Smooth movement. Cordial circulation.",
+          "solution": "Acceptable. Maintain warm evening lighting. Keep the western end clear.",
+          "why": "West Varuna zone — peaceful energy supports relaxed circulation in the evening hours."
+        },
+        "Northwest": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Drafty unstable passage. Wind tunnel effect. Mind feels scattered while walking through. Family interactions brief.",
+          "solution": "Add grounding elements: a small bench, heavy artwork on one wall. Avoid wind tunnels with doors at both ends.",
+          "why": "Northwest Vayu zone — air element accelerates through a corridor here, scattering the energy that should be circulating gently."
+        }
+      }
+    },
+    "main_entrance": {
+      "display_name": "Main Entrance",
+      "badge_color_bgr": [
+        200,
+        80,
+        40
+      ],
+      "ideal_direction": "Northeast",
+      "category": "entry",
+      "purpose": "Entry point, opportunity channel, welcome.",
+      "detection_rules": {
+        "door": 3.0,
+        "shoe_rack": 4.0,
+        "entrance_mat": 4.0
+      },
+      "directions": {
+        "Northeast": {
+          "severity": 0,
+          "severityLabel": "IDEAL",
+          "impact": "Divine blessings. All positive enters. Continuous opportunities. Guests blessed. Success flows. Prosperity assured forever.",
+          "solution": "Maintain Northeast entrance forever. Bright saffron paint. Daily lamps. Auspicious symbols. Flowers. Plants.",
+          "why": "Northeast attracts all divinity and opportunity. All blessings assured forever. Prosperity enters continuously."
+        },
+        "North": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Good opportunity with prosperity. Wealth flows in. Guests feel prosperous. Success likely.",
+          "solution": "Acceptable. Northeast superior. Maintain brightness. Prosperity symbols.",
+          "why": "North brings wealth but lacks Northeast's sacred welcome. Prosperity present but not divine."
+        },
+        "East": {
+          "severity": 1,
+          "severityLabel": "GOOD",
+          "impact": "Bright energetic entry. Active opportunities. Illuminated welcome. Good success. Excellent energy.",
+          "solution": "Excellent. Maintain bright lights and active energy.",
+          "why": "East illumination creates a bright welcoming entry. Success good. Visibility excellent."
+        },
+        "Southeast": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Energetic active entry. Opportunities flow with heat. Dynamic welcome. Good for business.",
+          "solution": "Acceptable. Can work well. Maintain a bright entrance.",
+          "why": "Southeast fire creates active opportunity flow. Results good. Dynamism high."
+        },
+        "South": {
+          "severity": 5,
+          "severityLabel": "CRITICAL",
+          "impact": "All wealth flows out. Opportunities leave. Success elusive. Financial ruin. Family struggles. Health problems multiply.",
+          "solution": "Relocate entrance to Northeast immediately. Block South entry completely. Life depends on the change.",
+          "why": "South is the loss direction. Wealth hemorrhages. Opportunities flee. Family trapped. Health deteriorates."
+        },
+        "Southwest": {
+          "severity": 5,
+          "severityLabel": "CRITICAL",
+          "impact": "Blocked opportunities. Heavy suppression. Progress impossible. Family trapped. Financial collapse. Darkness at entry.",
+          "solution": "Create a Northeast entrance urgently. Block Southwest completely. Life depends on this.",
+          "why": "Southwest, the heaviest zone, crushes all opportunity. Family trapped. Wealth blocked. Darkness permanent."
+        },
+        "West": {
+          "severity": 2,
+          "severityLabel": "GOOD",
+          "impact": "Relaxed welcoming entry. Guests feel comfortable. Moderate opportunities. Fair success.",
+          "solution": "Acceptable. Northeast better. Welcoming atmosphere.",
+          "why": "West creates a comfortable entry. Guests welcome but opportunities limited."
+        },
+        "Northwest": {
+          "severity": 3,
+          "severityLabel": "MODERATE",
+          "impact": "Unstable opportunity entry. Scattered blessings. Inconsistent success. Chaotic opportunities. Moderate problems.",
+          "solution": "Move to Northeast in 1–2 years. Clear organized entry. Grounding elements.",
+          "why": "Northwest chaotic energy creates scattered opportunity flow. Success becomes erratic."
+        }
+      }
+    }
+  },
+  "unknown": {
+    "display_name": "Unknown",
+    "badge_color_bgr": [
+      100,
+      100,
+      100
+    ],
+    "note": "Fallback when YOLO detections do not match any room rule."
+  }
+}
