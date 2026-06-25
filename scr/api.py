@@ -25,8 +25,13 @@ import numpy as np
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import JSONResponse, StreamingResponse
 
-import scr.vastu_rules as vastu_rules
-from scr.vaastu_object_detection import (
+# Make the local modules importable whether this file is run directly
+# (python scr/api.py) or as a package (uvicorn scr.api:app) from the root.
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import vastu_rules
+from vaastu_object_detection import (
     CONF_TH,
     LOG_FILE,
     MODEL_PATH,
@@ -168,4 +173,6 @@ async def classify_with_image(
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("api:app", host="0.0.0.0", port=5004, reload=True)
+    # Pass the app object directly so a plain `python scr/api.py` works without
+    # needing a module import string (reload mode would require the latter).
+    uvicorn.run(app, host="0.0.0.0", port=5004)
