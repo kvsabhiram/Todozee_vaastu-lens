@@ -23,7 +23,12 @@ from ultralytics import YOLO
 
 from datetime import datetime
 
-import scr.vastu_rules as vastu_rules
+# Make sibling modules importable whether this file is run directly
+# (python scr/vaastu_object_detection.py) or imported as part of the scr package.
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import vastu_rules
 
 HERE = Path(__file__).parent.resolve()
 ROOT = HERE.parent  # project root; model + data folders live one level above scr/
