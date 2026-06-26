@@ -19,9 +19,11 @@ ENV PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PYTHONDONTWRITEBYTECODE=1
 
-# OpenCV / ultralytics need a few native libs even for the headless build.
+# OpenCV / ultralytics need a few native libs even for the headless build;
+# curl is used to fetch the model weights below.
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
+        curl \
         libgl1 \
         libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
@@ -30,19 +32,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Install the CPU-only torch wheels first (much smaller than the CUDA build),
-# then the rest of the app requirements.
+# Install the CPU-only torch + torchvision wheels first (much smaller than the
+# CUDA build, and ultralytics requires torchvision), then the app requirements.
+# Installing the CPU builds up front means the later `pip install -r` sees the
+# torch/torchvision constraints already satisfied and won't pull CUDA wheels.
 COPY requirements.txt .
 RUN pip install --upgrade pip \
-    && pip install --index-url https://download.pytorch.org/whl/cpu torch \
+    && pip install --index-url https://download.pytorch.org/whl/cpu torch torchvision \
     && pip install -r requirements.txt
 
 # Pre-download the YOLOv8m COCO weights so runtime is fully offline. The app
-# expects them at the project root (MODEL_PATH = ROOT / "yolov8m.pt").
-# ultralytics downloads into the CWD, so run from /opt to land at /opt/yolov8m.pt.
-WORKDIR /opt
-RUN python -c "from ultralytics import YOLO; YOLO('yolov8m.pt')" \
-    && test -f /opt/yolov8m.pt
+# expects them at the project root (MODEL_PATH = ROOT / "yolov8m.pt"). Fetch the
+# file directly from the ultralytics release assets — no Python/torch import at
+# build time, which keeps this step fast and independent of the import chain.
+RUN curl -fL --retry 3 -o /opt/yolov8m.pt \
+        https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8m.pt \
+    && test -s /opt/yolov8m.pt
 
 # ---------------------------------------------------------------------------
 # Stage 2 — runtime
