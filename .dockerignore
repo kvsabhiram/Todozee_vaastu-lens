@@ -1,0 +1,30 @@
+# VCS / CI
+.git
+.github
+.gitignore
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+
+# Local artifacts the image should never carry
+logs/
+classified/
+*.pt
+.ultralytics/
+
+# Infra — not needed inside the app image
+terraform/
+*.tf
+*.tfvars
+.terraform/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+*.md

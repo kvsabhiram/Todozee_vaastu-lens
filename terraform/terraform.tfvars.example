@@ -1,0 +1,23 @@
+# Copy to terraform.tfvars and adjust. terraform.tfvars is gitignored.
+
+aws_region   = "ap-south-1"
+project_name = "vaastu-lens"
+environment  = "prod"
+
+# Compute — t3.large (8 GB) comfortably fits torch + yolov8m on CPU.
+instance_type    = "t3.large"
+root_volume_size = 30
+
+# Access
+app_port           = 5004
+allowed_http_cidrs = ["0.0.0.0/0"]
+# Lock SSH to your IP, or leave empty to disable SSH entirely (SSM still works).
+allowed_ssh_cidrs = []
+# Optional existing EC2 key pair for break-glass SSH.
+key_pair_name = ""
+
+# CI/CD
+github_repository = "kvsabhiram/Todozee_vaastu-lens"
+github_branch     = "main"
+# Set to false if token.actions.githubusercontent.com already exists in the account.
+create_oidc_provider = true

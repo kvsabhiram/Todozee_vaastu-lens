@@ -1,0 +1,119 @@
+name: CI/CD
+
+# Build the Docker image, push it to ECR, and redeploy the EC2 host via SSM.
+# Auth to AWS is keyless via GitHub OIDC -> the role created in terraform/cicd.tf.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: ap-south-1
+  ECR_REPOSITORY: vaastu-lens
+  # Tag deploy targets carry: see `Deploy` tag on the EC2 instance.
+  DEPLOY_TAG_KEY: Deploy
+  DEPLOY_TAG_VALUE: vaastu-lens-prod
+
+# Required for the OIDC token exchange + readable logs.
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  # --- 1. Lint / quick sanity checks (runs on PRs and pushes) ---------------
+  build-test:
+    name: Build & validate image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Build only (no push) to prove the Dockerfile is healthy on every PR.
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: true
+          tags: ${{ env.ECR_REPOSITORY }}:ci-${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # Smoke test: boot the container and hit /health.
+      - name: Smoke test /health
+        run: |
+          docker run -d --name app -p 5004:5004 ${{ env.ECR_REPOSITORY }}:ci-${{ github.sha }}
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:5004/health; then echo "OK"; exit 0; fi
+            sleep 3
+          done
+          echo "Health check failed; dumping logs:"; docker logs app; exit 1
+
+  # --- 2. Push to ECR + deploy (only on push to main) -----------------------
+  deploy:
+    name: Push & deploy
+    runs-on: ubuntu-latest
+    needs: build-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build & push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+            ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # Trigger the on-host deploy script (installed by user_data) via SSM,
+      # passing the immutable per-commit tag so rollbacks are trivial.
+      - name: Deploy to EC2 via SSM
+        run: |
+          set -euo pipefail
+          CMD_ID=$(aws ssm send-command \
+            --region "$AWS_REGION" \
+            --document-name "AWS-RunShellScript" \
+            --comment "Deploy ${{ github.sha }}" \
+            --targets "Key=tag:${DEPLOY_TAG_KEY},Values=${DEPLOY_TAG_VALUE}" \
+            --parameters "commands=['/usr/local/bin/deploy-app.sh ${{ github.sha }}']" \
+            --query "Command.CommandId" --output text)
+          echo "SSM command: $CMD_ID"
+
+          # Wait for completion and surface the result.
+          for i in $(seq 1 40); do
+            STATUS=$(aws ssm list-command-invocations --region "$AWS_REGION" \
+              --command-id "$CMD_ID" --details \
+              --query "CommandInvocations[0].Status" --output text 2>/dev/null || echo "Pending")
+            echo "status: $STATUS"
+            case "$STATUS" in
+              Success) echo "Deploy succeeded"; exit 0 ;;
+              Failed|Cancelled|TimedOut) echo "Deploy failed";
+                aws ssm list-command-invocations --region "$AWS_REGION" --command-id "$CMD_ID" \
+                  --details --query "CommandInvocations[0].CommandPlugins[0].Output" --output text;
+                exit 1 ;;
+            esac
+            sleep 6
+          done
+          echo "Timed out waiting for SSM command"; exit 1
