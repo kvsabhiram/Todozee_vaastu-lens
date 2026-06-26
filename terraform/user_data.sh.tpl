@@ -104,3 +104,43 @@ systemctl enable vaastu-lens.service
 
 # --- first deploy -----------------------------------------------------------
 /usr/local/bin/deploy-app.sh "${image_tag}"
+
+# --- Caddy reverse proxy + automatic HTTPS (only if a domain is set) ---------
+# Caddy fronts the app on 80/443, obtains and renews a Let's Encrypt cert for
+# the domain, and reverse-proxies to the local app port. Certs persist in the
+# caddy_data docker volume across restarts/reboots.
+DOMAIN="${domain}"
+if [ -n "$DOMAIN" ]; then
+  mkdir -p /etc/caddy
+  cat >/etc/caddy/Caddyfile <<CADDYFILE
+$DOMAIN {
+    reverse_proxy 127.0.0.1:${app_port}
+}
+CADDYFILE
+
+  docker volume create caddy_data >/dev/null 2>&1 || true
+
+  cat >/etc/systemd/system/caddy.service <<'CADDYUNIT'
+[Unit]
+Description=Caddy reverse proxy (auto-HTTPS) for vaastu-lens
+After=docker.service vaastu-lens.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+RestartSec=5
+ExecStartPre=-/usr/bin/docker rm -f caddy
+ExecStart=/usr/bin/docker run --rm --name caddy --network host \
+  -v /etc/caddy/Caddyfile:/etc/caddy/Caddyfile:ro \
+  -v caddy_data:/data \
+  caddy:2
+ExecStop=/usr/bin/docker rm -f caddy
+
+[Install]
+WantedBy=multi-user.target
+CADDYUNIT
+
+  systemctl daemon-reload
+  systemctl enable --now caddy.service
+fi

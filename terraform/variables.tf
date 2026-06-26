@@ -75,6 +75,16 @@ variable "app_port" {
   default     = 5004
 }
 
+variable "domain" {
+  description = <<-EOT
+    Public hostname to serve the app on via Caddy + auto-HTTPS (Let's Encrypt).
+    Leave empty to skip the reverse proxy and serve plain HTTP on app_port.
+    The domain's DNS A record must point at this instance's Elastic IP.
+  EOT
+  type        = string
+  default     = ""
+}
+
 variable "allowed_http_cidrs" {
   description = "CIDR blocks allowed to reach the app over HTTP(S)."
   type        = list(string)

@@ -11,6 +11,10 @@ root_volume_size = 30
 # Access
 app_port           = 5004
 allowed_http_cidrs = ["0.0.0.0/0"]
+
+# Public hostname served via Caddy auto-HTTPS. Leave "" to serve plain HTTP.
+# Add a DNS A record: <domain> -> the instance Elastic IP (see `dns_record_needed`).
+domain = ""
 # Lock SSH to your IP, or leave empty to disable SSH entirely (SSM still works).
 allowed_ssh_cidrs = []
 # Optional existing EC2 key pair for break-glass SSH.

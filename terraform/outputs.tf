@@ -13,6 +13,16 @@ output "health_url" {
   value       = "http://${aws_eip.app.public_ip}:${var.app_port}/health"
 }
 
+output "https_url" {
+  description = "Public HTTPS URL via Caddy (once the DNS A record resolves)."
+  value       = var.domain != "" ? "https://${var.domain}" : "(no domain configured)"
+}
+
+output "dns_record_needed" {
+  description = "Add this A record at your DNS provider (Namecheap)."
+  value       = var.domain != "" ? "${var.domain}  A  ${aws_eip.app.public_ip}" : "(no domain configured)"
+}
+
 output "instance_id" {
   description = "EC2 instance ID (used as the SSM deploy target)."
   value       = aws_instance.app.id

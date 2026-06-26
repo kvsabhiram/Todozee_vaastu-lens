@@ -99,9 +99,17 @@ resource "aws_security_group" "app" {
   }
 
   ingress {
-    description = "HTTP (reverse proxy / future ALB)"
+    description = "HTTP (Caddy: ACME challenge + redirect to HTTPS)"
     from_port   = 80
     to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = var.allowed_http_cidrs
+  }
+
+  ingress {
+    description = "HTTPS (Caddy reverse proxy)"
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = var.allowed_http_cidrs
   }
@@ -201,6 +209,7 @@ resource "aws_instance" "app" {
     app_port       = var.app_port
     container_name = local.name
     log_group      = aws_cloudwatch_log_group.app.name
+    domain         = var.domain
   })
   # Re-run user_data if the template changes.
   user_data_replace_on_change = false
