@@ -21,3 +21,8 @@ github_repository = "kvsabhiram/Todozee_vaastu-lens"
 github_branch     = "main"
 # Set to false if token.actions.githubusercontent.com already exists in the account.
 create_oidc_provider = true
+
+# Alerting — where CloudWatch alarm notifications go (confirm the SNS email once).
+# Leave empty to create the topic/alarms without an email subscription.
+alarm_email           = ""
+error_alarm_threshold = 1

@@ -31,3 +31,16 @@ output "github_actions_role_arn" {
 output "aws_region" {
   value = var.aws_region
 }
+
+output "alerts_sns_topic_arn" {
+  description = "SNS topic that receives CloudWatch alarm notifications."
+  value       = aws_sns_topic.alerts.arn
+}
+
+output "alarm_names" {
+  description = "CloudWatch alarms guarding the service."
+  value = [
+    aws_cloudwatch_metric_alarm.app_errors.alarm_name,
+    aws_cloudwatch_metric_alarm.instance_health.alarm_name,
+  ]
+}

@@ -41,6 +41,22 @@ variable "log_retention_days" {
   default     = 30
 }
 
+variable "alarm_email" {
+  description = <<-EOT
+    Email address to receive CloudWatch alarm notifications. Leave empty to
+    create the SNS topic without an email subscription. AWS sends a one-time
+    confirmation email that must be clicked before alerts arrive.
+  EOT
+  type        = string
+  default     = ""
+}
+
+variable "error_alarm_threshold" {
+  description = "Number of error lines in a 5-min window that trips the error alarm."
+  type        = number
+  default     = 1
+}
+
 variable "key_pair_name" {
   description = <<-EOT
     Name of an existing EC2 key pair for break-glass SSH access. Leave empty
