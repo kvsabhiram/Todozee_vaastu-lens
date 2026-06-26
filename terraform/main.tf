@@ -20,14 +20,17 @@ data "aws_subnets" "default" {
   }
 }
 
-# Latest Amazon Linux 2023 AMI (ships Docker in repos + SSM agent preinstalled).
+# Latest *standard* Amazon Linux 2023 AMI (ships Docker in repos + SSM agent
+# preinstalled). The "al2023-ami-2023.*" pattern deliberately EXCLUDES the
+# "al2023-ami-minimal-*" variant, which omits the SSM agent and breaks the
+# SSM-based deploy path.
 data "aws_ami" "al2023" {
   most_recent = true
   owners      = ["amazon"]
 
   filter {
     name   = "name"
-    values = ["al2023-ami-*-x86_64"]
+    values = ["al2023-ami-2023.*-x86_64"]
   }
   filter {
     name   = "architecture"

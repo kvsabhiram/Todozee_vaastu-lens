@@ -15,6 +15,12 @@
 ###############################################################################
 set -euxo pipefail
 
+# --- SSM agent (needed for CI deploys; safety net if the AMI lacks it) ------
+# The standard AL2023 AMI ships and enables this already; installing is
+# idempotent and guarantees the deploy path works even on a minimal AMI.
+dnf install -y amazon-ssm-agent || true
+systemctl enable --now amazon-ssm-agent || true
+
 # --- Docker -----------------------------------------------------------------
 dnf update -y
 dnf install -y docker
