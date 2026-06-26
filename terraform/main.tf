@@ -90,13 +90,9 @@ resource "aws_security_group" "app" {
   description = "Vaastu-Lens app access"
   vpc_id      = data.aws_vpc.default.id
 
-  ingress {
-    description = "App HTTP"
-    from_port   = var.app_port
-    to_port     = var.app_port
-    protocol    = "tcp"
-    cidr_blocks = var.allowed_http_cidrs
-  }
+  # NOTE: the app port (5004) is intentionally NOT exposed. Caddy fronts the
+  # app on 443 and reaches it over localhost, so 5004 stays private to the host.
+  # Re-add an ingress here only if you need direct (un-proxied) access.
 
   ingress {
     description = "HTTP (Caddy: ACME challenge + redirect to HTTPS)"
