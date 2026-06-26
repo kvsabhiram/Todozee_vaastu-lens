@@ -41,6 +41,7 @@ output "alarm_names" {
   description = "CloudWatch alarms guarding the service."
   value = [
     aws_cloudwatch_metric_alarm.app_errors.alarm_name,
+    aws_cloudwatch_metric_alarm.http_5xx.alarm_name,
     aws_cloudwatch_metric_alarm.instance_health.alarm_name,
   ]
 }

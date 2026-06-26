@@ -56,6 +56,42 @@ resource "aws_cloudwatch_metric_alarm" "app_errors" {
   ok_actions    = [aws_sns_topic.alerts.arn]
 }
 
+# Count HTTP 5xx responses in the uvicorn access log. The access line looks
+# like:  ... "GET /x HTTP/1.1" 500 Internal Server Error  — so a quoted term of
+# " 5xx" (space + status code) matches the status field without touching paths,
+# ports or query strings. Kept as its own metric so 5xx is distinguishable from
+# unhandled exceptions.
+resource "aws_cloudwatch_log_metric_filter" "http_5xx" {
+  name           = "${local.name}-5xx"
+  log_group_name = aws_cloudwatch_log_group.app.name
+  pattern        = "?\" 500\" ?\" 501\" ?\" 502\" ?\" 503\" ?\" 504\""
+
+  metric_transformation {
+    name          = "HttpServerErrorCount"
+    namespace     = "VaastuLens/App"
+    value         = "1"
+    default_value = "0"
+    unit          = "Count"
+  }
+}
+
+# Alarm: one or more HTTP 5xx responses within a 5-minute window.
+resource "aws_cloudwatch_metric_alarm" "http_5xx" {
+  alarm_name          = "${local.name}-5xx-errors"
+  alarm_description   = "HTTP 5xx responses detected in the access logs."
+  namespace           = "VaastuLens/App"
+  metric_name         = "HttpServerErrorCount"
+  statistic           = "Sum"
+  period              = 300
+  evaluation_periods  = 1
+  threshold           = var.error_alarm_threshold
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  treat_missing_data  = "notBreaching"
+
+  alarm_actions = [aws_sns_topic.alerts.arn]
+  ok_actions    = [aws_sns_topic.alerts.arn]
+}
+
 # Alarm: EC2 instance/system status check failing for 3 consecutive minutes —
 # i.e. the host (and thus the app) is effectively down. treat_missing_data is
 # "breaching" so a vanished instance also fires.
