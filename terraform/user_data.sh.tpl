@@ -48,6 +48,23 @@ docker pull "$ECR_REPO:$IMAGE_TAG"
 echo "IMAGE_TAG=$IMAGE_TAG" > /etc/vaastu-lens.env
 systemctl restart vaastu-lens.service
 
+# --- post-deploy health check ---------------------------------------------
+# Poll the app's own /health until it reports ok, so a bad image fails the
+# deploy (the SSM command / CI step sees a non-zero exit) instead of silently
+# leaving a broken container running.
+ok=0
+for i in $(seq 1 30); do
+  if curl -fsS "http://localhost:${app_port}/health" | grep -q '"ok":true'; then
+    echo "health OK after $((i*4))s"; ok=1; break
+  fi
+  sleep 4
+done
+if [ "$ok" -ne 1 ]; then
+  echo "DEPLOY FAILED: /health did not become healthy" >&2
+  journalctl -u vaastu-lens.service --no-pager -n 50 >&2 || true
+  exit 1
+fi
+
 # Reclaim disk from old layers.
 docker image prune -f || true
 DEPLOY
@@ -70,6 +87,11 @@ RestartSec=5
 ExecStartPre=-/usr/bin/docker rm -f ${container_name}
 ExecStart=/usr/bin/docker run --rm --name ${container_name} \
   -p ${app_port}:${app_port} \
+  --log-driver=awslogs \
+  --log-opt awslogs-region=${aws_region} \
+  --log-opt awslogs-group=${log_group} \
+  --log-opt awslogs-create-group=true \
+  --log-opt awslogs-stream=${container_name} \
   ${ecr_repo_url}:$${IMAGE_TAG}
 ExecStop=/usr/bin/docker rm -f ${container_name}
 

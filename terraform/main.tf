@@ -74,6 +74,15 @@ resource "aws_ecr_lifecycle_policy" "app" {
 }
 
 # ---------------------------------------------------------------------------
+# CloudWatch Logs — the container streams stdout/stderr here via the awslogs
+# Docker log driver (configured in user_data).
+# ---------------------------------------------------------------------------
+resource "aws_cloudwatch_log_group" "app" {
+  name              = "/${local.name}"
+  retention_in_days = var.log_retention_days
+}
+
+# ---------------------------------------------------------------------------
 # Security group
 # ---------------------------------------------------------------------------
 resource "aws_security_group" "app" {
@@ -150,6 +159,25 @@ resource "aws_iam_role_policy_attachment" "ecr_read" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 
+# Allow the awslogs Docker driver to ship container logs to CloudWatch.
+resource "aws_iam_role_policy" "cw_logs" {
+  name = "${local.name}-cw-logs"
+  role = aws_iam_role.ec2.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:CreateLogGroup"
+      ]
+      Resource = "${aws_cloudwatch_log_group.app.arn}:*"
+    }]
+  })
+}
+
 resource "aws_iam_instance_profile" "ec2" {
   name = "${local.name}-ec2-profile"
   role = aws_iam_role.ec2.name
@@ -172,6 +200,7 @@ resource "aws_instance" "app" {
     image_tag      = var.image_tag
     app_port       = var.app_port
     container_name = local.name
+    log_group      = aws_cloudwatch_log_group.app.name
   })
   # Re-run user_data if the template changes.
   user_data_replace_on_change = false

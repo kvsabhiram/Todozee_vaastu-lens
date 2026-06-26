@@ -35,6 +35,12 @@ variable "root_volume_size" {
   default     = 30
 }
 
+variable "log_retention_days" {
+  description = "Retention for the app's CloudWatch log group."
+  type        = number
+  default     = 30
+}
+
 variable "key_pair_name" {
   description = <<-EOT
     Name of an existing EC2 key pair for break-glass SSH access. Leave empty
