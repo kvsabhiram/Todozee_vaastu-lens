@@ -39,6 +39,27 @@ from vaastu_object_detection import (
     load_model,
 )
 
+import logging
+
+
+class _HealthAccessFilter(logging.Filter):
+    """Drop uvicorn access-log lines for the /health probe.
+
+    The container HEALTHCHECK and the on-host deploy check poll /health
+    frequently; logging every probe floods CloudWatch. Real request paths
+    (/classify, /languages, ...) are still logged.
+    """
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        args = record.args
+        # uvicorn.access args: (client_addr, method, path, http_version, status)
+        if args and len(args) >= 3 and str(args[2]).startswith("/health"):
+            return False
+        return True
+
+
+logging.getLogger("uvicorn.access").addFilter(_HealthAccessFilter())
+
 
 app = FastAPI(
     title="Vaastu Room Classifier",
